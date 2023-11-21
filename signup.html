@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="signup.css">
+    <title>Group-Chat App</title>
+</head>
+<body>
+    <div class="model-container">
+        <div class="model-content">
+        <h1>Group-Chat App</h1>
+        <form onsubmit="registerUser(event)">
+    <div>
+        <label class="form-label">Name:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label class="form-label">Email:</label>
+        <input type="text" id="email" name="email" required>
+    </div>
+    <div>
+        <label class="form-label">Phone No:</label>
+        <input type="number" id="phonenumber" name="phonenumber" required>
+    </div>
+    <div>
+        <label class="form-label">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+        <button style="background-color:lightblue;">Sign Up</button><br><br>
+    </form>
+    <label>Existing User?</label>
+    <a href="../views/login.html">Sign In</a>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+    <script src="signup.js"></script>
+</body>
+</html>
