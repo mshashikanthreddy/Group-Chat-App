@@ -4,7 +4,12 @@ const app = express();
 
 var cors = require('cors');
 
-app.use(cors());
+app.use(cors(
+    {
+        origin : "*",
+        methods : ["GET","POST","DELETE"]
+    }
+));
 
 const sequelize = require('./util/database');
 
