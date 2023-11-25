@@ -15,7 +15,7 @@ const sequelize = require('./util/database');
 
 const bodyParser = require('body-parser');
 
-const userRouter = require('./routes/signup');
+const userRouter = require('./routes/user');
 
 
 app.use(bodyParser.json({extended : false}));
