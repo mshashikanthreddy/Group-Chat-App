@@ -20,11 +20,13 @@ async function loginUser(event){
         document.getElementById('password').value = "";
 
         localStorage.setItem('token',response.data.token);
+
+        console.log(response.data.token);
         
         alert(response.data.message);
 
-
-        
+        window.location.href = "../views/chat.html";
+    
     }
     catch(err) {
         console.log(err.response.data);
