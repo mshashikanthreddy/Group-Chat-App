@@ -1,3 +1,31 @@
+ function sendmsg(event) {
+
+    event.preventDefault();
+
+    const msg = event.target.msg.value;
+
+    const userDetails = {
+
+        msg
+    }
+
+    try {
+
+        const token = localStorage.getItem('token');
+        const response =  axios.post("http://localhost:3000/user/sendmsg",userDetails, {
+            headers : { Authorization : token}
+        })
+        if(response.status === 200)
+        {
+            alert(response.data.message);
+        }
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+
+
 window.addEventListener('DOMContentLoaded' , async() => {
 
     
