@@ -18,6 +18,20 @@ const sendmessage = async (req,res,next) => {
 
 }
 
+const getmessage = async (req,res,next) => {
+
+    try{
+    const response = await Msg.findAll();
+
+    res.status(201).json(response);
+    }
+    catch(err) {
+        res.status(500).json({ success: false, message: "Failed to retrieve the chat messages" });
+  }
+    }
+
+
 module.exports = {
-    sendmessage
+    sendmessage,
+    getmessage
 }
