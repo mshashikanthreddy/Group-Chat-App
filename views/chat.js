@@ -2,7 +2,7 @@
 
  const token = localStorage.getItem('token');
 
- function sendmsg(event) {
+ async function sendmsg(event) {
 
     event.preventDefault();
 
@@ -15,16 +15,19 @@
 
     try {
 
-        const response =  axios.post("http://localhost:3000/user/sendmsg",userDetails, {
+        const response =  await axios.post("http://localhost:3000/user/sendmsg",userDetails, {
             headers : { Authorization : token}
         })
         if(response.status === 200)
         {
-            alert(response.data.message);
+            alert("message sent successfully");
         }
-        setInterval(() => {
-            location.reload();
-          }, 1000);
+        console.log(response.data.msg);
+        showAfterDomContentLoad(response.data);
+        // setInterval(() => {
+        //     location.reload();
+        //   }, 1000);
+        document.getElementById('tmsg').value = "";
     }
     catch(err) {
         console.log(err);
@@ -38,20 +41,49 @@ window.addEventListener('DOMContentLoaded' , async() => {
     try {
     const decodeToken = parseJwt(token)
     console.log(decodeToken);
-    const response = await axios.get("http://localhost:3000/user/getmsg", {
+
+    let lastmsgid ;
+    if(!lastmsgid)
+    {
+      lastmsgid = -1;
+    }
+    
+    const response = await axios.get(`http://localhost:3000/user/getmsg?lastmsgid=${lastmsgid}`, {
         headers: { Authorization: token },
       });
       const details = response.data;
-      console.log("while getting messages on domcontentload", details);
+
+      console.log(details);
+    
       const chatList = document.getElementById("chats");
       chatList.innerHTML = "";
-      if (Array.isArray(details)) {
-        details.forEach((element) => {
-          showafterDomContentload(element);
-        });
-      } else {
-        console.log("response.data.message is not an array");
+
+      lastmsgid = details[details.length - 1].msgId ;
+      localStorage.setItem('lastmsgid',lastmsgid);
+
+      console.log(lastmsgid);
+
+
+      if(details.length > 0) 
+      {
+        let existingmsgs = JSON.parse(localStorage.getItem("messages"));
+        if(!existingmsgs)
+        {
+          existingmsgs = [];
+        }
+
+        const newMessage = [...existingmsgs,...details];
+
+        while (newMessage.length > 10) {
+          newMessage.shift();
+        }
+
+        localStorage.setItem("message", JSON.stringify(newMessage));
       }
+      const messages = JSON.parse(localStorage.getItem("message"));
+      messages.forEach((element) => {
+        showAfterDomContentLoad(element);
+      });
   
     } catch (err) {
       console.log("error  while getting messages", err);
@@ -68,12 +100,14 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 
-function showafterDomContentload(element) {
+function showAfterDomContentLoad(element) {
     const chatList = document.getElementById("chats");
     const chatItem = document.createElement("li");
     chatItem.textContent = `${element.username}:${element.msg}`;
     chatList.appendChild(chatItem);
   }
+
+
 
 
       
